@@ -9,8 +9,8 @@
             <field name="view_mode">tree,form</field>
         </record>
         <!--Menu entries-->
-        <meuitem id="main_ott_menu" name="Twitter Tracker"/>
-        <meuitem id="ott_menu" name="Twitter Tracker" parent="main_ott_menu"/>
-        <meuitem id="tweet_menu" name="Retrived Tweets" parent="ott_menu" atction="tweet_list_action"/>
+        <menuitem id="main_ott_menu" name="Twitter Tracker"/>
+        <menuitem id="ott_menu" name="Twitter Tracker" parent="main_ott_menu"/>
+        <menuitem id="tweet_menu" name="Retrived Tweets" parent="ott_menu" atction="tweet_list_action"/>
     </data>
 </openerp>
