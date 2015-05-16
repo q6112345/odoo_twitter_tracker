@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
     <data>
-        <!--Menu actions beins-->
+        <!--View Customized begins-->
+        <record model="ir.ui.view" id="tweet_tree_view">
+            <field name="name">tweet.tree</field>
+            <field name="model">ott.tweet</field>
+            <field name="arch" type="xml">
+                <tree string="Tweet Tree">
+                    <field name="content"/>
+                    <!--<field name="time"/>-->
+                    <field name="poster"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--Menu actions begins-->
+
         <!--tweet_list_action-->
         <record model="ir.actions.act_window" id="tweet_list_action">
             <field name="name">Tweets</field>
@@ -9,6 +23,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
+
         <!--tweeter_list_action-->
         <record model="ir.actions.act_window" id="tweeter_list_action">
             <field name="name">Tweeters</field>
@@ -16,11 +31,14 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
+
         <!--Menu entriesb begins-->
         <menuitem id="main_ott_menu" name="Twitter Tracker"/>
         <menuitem id="ott_menu" name="Twitter Tracker" parent="main_ott_menu"/>
+
         <!--Retrived Tweets Menu-->
         <menuitem id="tweet_menu" name="Retrived Tweets" parent="ott_menu" action="tweet_list_action"/>
+
         <!--Following Tweeters Menu-->
         <menuitem id="tweeter_menu" name="Following Tweeters" parent="ott_menu" action="tweeter_list_action"/>
     </data>
