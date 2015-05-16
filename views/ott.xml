@@ -9,7 +9,19 @@
                 <tree string="Tweet Tree">
                     <field name="content"/>
                     <!--<field name="time"/>-->
-                    <field name="poster"/>
+                    <field name="poster_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="tweeter_tree_view">
+            <field name="name">tweeter.tree</field>
+            <field name="model">ott.tweeter</field>
+            <field name="arch" type="xml">
+                <tree string="Tweeter Tree">
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="tweets_ids"/>
                 </tree>
             </field>
         </record>
