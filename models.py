@@ -10,5 +10,6 @@ class Tweeter(models.Model):
 
 class Tweet(models.Model):
     _name = "ott.tweet"
-    content = fields.Char()
+    content = fields.Char(string="Content")
+    time =fields.Char(string="Time")
     poster = fields.Many2one('ott.tweeter', ondelete="cascade", string="Poster")

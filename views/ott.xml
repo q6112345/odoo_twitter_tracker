@@ -2,7 +2,7 @@
 <openerp>
     <data>
         <!--Menu actions-->
-        <record model="ir.actions.act_window" id="data_list_action">
+        <record model="ir.actions.act_window" id="tweet_list_action">
             <field name="name">Tweets</field>
             <field name="res_model">ott.tweet</field>
             <field name="view_type">form</field>
@@ -11,6 +11,6 @@
         <!--Menu entries-->
         <menuitem id="main_ott_menu" name="Twitter Tracker"/>
         <menuitem id="ott_menu" name="Twitter Tracker" parent="main_ott_menu"/>
-        <menuitem id="tweet_menu" name="Retrived Tweets" parent="ott_menu" atction="tweet_list_action"/>
+        <menuitem id="tweet_menu" name="Retrived Tweets" parent="ott_menu" action="tweet_list_action"/>
     </data>
 </openerp>
