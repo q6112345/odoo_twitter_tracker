@@ -27,6 +27,7 @@
         # 'security/ir.model.access.csv',
         'templates.xml',
         'views/ott.xml',
+        'data/ott_cron.xml'
     ],
     # only loaded in demonstration mode
     'demo': [
