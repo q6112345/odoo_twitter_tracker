@@ -1,10 +1,26 @@
 # -*- coding: utf-8 -*-
 
 from openerp import models, fields, api
-from urllib2 import urlopen
-from lxml import etree
+import oauth2 as oauth
+import json
 
-ENDPOINT = "https://twitter.com/"
+CONSUMER_KEY = 'UvbYbzVrAnkQyEmFdnulJCqmF'
+CONSUMER_SECRET = 'jqQyxcaWm2RjKzqJVC9VbsTTOyydY2luOP7icCvb9kGS9Pz1eH'
+KEY = '350263395-1AQhVGKaUpfy6XkGz7nRHr5B9PZcV01x4Xwxn88p'
+SECRET = 'wm5TFVKhSTRD1mN72fGgT2TNA5KhfqkfmOGLEreBo0O7D'
+
+class TwitterClient():
+    def oauth_req(self, url, http_method = 'GET', post_body = '', http_headers = ''):
+        consumer = oauth.Consumer(key = CONSUMER_KEY, secret = CONSUMER_SECRET)
+        token = oauth.Token(key = KEY, secret = SECRET)
+        client = oauth.Client(consumer, token)
+        jdata = json.loads(content)
+        return jdata
+
+    def get(self, url):
+        jdata = self.oauth_req(url)
+        return jdata
+
 
 class Tweeter(models.Model):
     _name = "ott.tweeter"
@@ -14,24 +30,32 @@ class Tweeter(models.Model):
 
     @api.one
     def get_tweet(self):
+        tweets = self.env['ott.tweet']
+        t = TwitterClient()
         for record in self:
-            poster_id = record.name
-            url = ENDPOINT + record.name
-            html = urlopen(url).read()
-            dom = etree.fromstring(html)
-            tweet_list = dom.xpath('//div[@class="ProfileTweet-contents"]')
-            for tweet in tweet_list:
-                content =tweet
-                self.pool.get('ott.tweet').add_tweet(poster_id, content)
-                #record.tweets_id.content = tweet
-                #self.env.cr.execute("some_sql", param1, param2, param3)
+            name = record.name
+            url = 'https://api.twitter.com/1.1/favorites/list.json?count=10&screen_name=%s' % name
+            response = t.get(url)
+            for tweet_dict in response:
+                tweet_id = tweet_dict['id']
+                tweet_content = tweet_dict['text']
+                tweet_ids = tweets.search([('tweet_id', '=', tweet_id)])
+                if not tweet_ids:
+                    new_tweet = tweets.create(
+                            {
+                              'content': tweet_content,
+                              'tweet_id': tweet_id,
+                              'poster_id': self.name,
+                            },
+                            context=context)
+                    tweet_ids.append(new_tweet)
+                    return tweet_ids
+
+
 
 
 class Tweet(models.Model):
     _name = "ott.tweet"
     content = fields.Char(string="Content")
-#    time =fields.Char(string="Time")
+    tweet_id = fields.Float(sting="Tweet ID", digits=(0,0))
     poster_id = fields.Many2one('ott.tweeter', ondelete="cascade", string="Poster")
-
-    def add_tweet(self, poster_id, content):
-        self.creat({'poster_id':poster_id, 'content':content})
