@@ -14,6 +14,11 @@ class TwitterClient():
         consumer = oauth.Consumer(key = CONSUMER_KEY, secret = CONSUMER_SECRET)
         token = oauth.Token(key = KEY, secret = SECRET)
         client = oauth.Client(consumer, token)
+        resp, content = client.request(url,
+            method = http_method,
+            body = post_body,
+            headers = http_headers
+        )
         jdata = json.loads(content)
         return jdata
 
