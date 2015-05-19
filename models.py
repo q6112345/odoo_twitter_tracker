@@ -35,27 +35,23 @@ class Tweeter(models.Model):
     description = fields.Text()
     tweets_ids = fields.One2many('ott.tweet', 'poster_id', string="Tweets")
 
-    #@api.one
-    def get_tweet(self, cr, uid, context=None):
-        tweets = self.pool['ott.tweet']
+    @api.one
+    def get_tweet(self):
+        tweets = self.env['ott.tweet']
         t = TwitterClient()
-        for record in self:
-            name = record.name
-            url = 'https://api.twitter.com/1.1/favorites/list.json?count=10&screen_name=%s' % name
-            response = t.get(url)
-            for tweet_dict in response:
-                tweet_id = tweet_dict['id']
-                tweet_content = tweet_dict['text']
-                tweet_ids = tweets.search([cr, uid, ('tweet_id', '=', tweet_id)])
-                if not tweet_ids:
-                    new_tweet = tweets.create(
-                            {
-                              'content': tweet_content,
-                              'tweet_id': tweet_id,
-                              'poster_id': name,
-                            },
-                            context=context)
-                    tweet_ids.append(new_tweet)
+        name = self.name
+        url = 'https://api.twitter.com/1.1/favorites/list.json?count=10&screen_name=%s' % name
+        response = t.get(url)
+        for tweet_dict in response:
+            tweet_id = tweet_dict['id']
+            tweet_content = tweet_dict['text']
+            tweet_ids = tweets.search([('tweet_id', '=', tweet_id)])
+            if not tweet_ids:
+                tweets.create({
+                          'content': tweet_content,
+                          'tweet_id': tweet_id,
+                          'poster_id': name,
+                        })
                 return tweet_ids
 
 
