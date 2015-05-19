@@ -35,7 +35,7 @@ class Tweeter(models.Model):
     description = fields.Text()
     tweets_ids = fields.One2many('ott.tweet', 'poster_id', string="Tweets")
 
-    @api.one
+    @api.model
     def get_tweet(self):
         tweets = self.env['ott.tweet']
         t = TwitterClient()
@@ -45,14 +45,11 @@ class Tweeter(models.Model):
         for tweet_dict in response:
             tweet_id = tweet_dict['id']
             tweet_content = tweet_dict['text']
-            tweet_ids = tweets.search([('tweet_id', '=', tweet_id)])
-            if not tweet_ids:
-                tweets.create({
-                          'content': tweet_content,
-                          'tweet_id': tweet_id,
-                          'poster_id': name,
-                        })
-                return tweet_ids
+            tweets.create({
+                      'content': tweet_content,
+                      'tweet_id': tweet_id,
+                      'poster_id': name,
+                    })
 
 
 
