@@ -22,6 +22,7 @@
                     <field name="name"/>
                     <field name="description"/>
                     <field name="tweets_ids"/>
+                    <!--<button type='action' name='get_tweet_action' />-->
                 </tree>
             </field>
         </record>
@@ -44,6 +45,15 @@
             <field name="view_mode">tree,form</field>
         </record>
 
+        <!--Trigger get_tweet method action-->
+
+        <!--<record model="ir.actions.server" id="get_tweet_action">-->
+            <!--<field name="name">Res Partner Server Action</field>-->
+            <!--<field name="model_id" ref="ott"/>-->
+            <!--<field name="code">-->
+                <!--get_tweet()-->
+            <!--</field>-->
+        <!--</record>-->
         <!--Menu entriesb begins-->
         <menuitem id="main_ott_menu" name="Twitter Tracker"/>
         <menuitem id="ott_menu" name="Twitter Tracker" parent="main_ott_menu"/>
@@ -53,5 +63,8 @@
 
         <!--Following Tweeters Menu-->
         <menuitem id="tweeter_menu" name="Following Tweeters" parent="ott_menu" action="tweeter_list_action"/>
+
+        <!--Trigger get_tweet method menu-->
+        <!--<menuitem id="tweeter_menu" name="Following Tweeters" parent="ott_menu" action="get_tweet_action"/>-->
     </data>
 </openerp>

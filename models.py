@@ -3,6 +3,8 @@
 from openerp import models, fields, api
 import oauth2 as oauth
 import json
+import logging
+_logger = logging.getLogger(__name__)
 
 CONSUMER_KEY = 'UvbYbzVrAnkQyEmFdnulJCqmF'
 CONSUMER_SECRET = 'jqQyxcaWm2RjKzqJVC9VbsTTOyydY2luOP7icCvb9kGS9Pz1eH'
@@ -50,11 +52,11 @@ class Tweeter(models.Model):
                             {
                               'content': tweet_content,
                               'tweet_id': tweet_id,
-                              'poster_id': self.name,
+                              'poster_id': name,
                             },
                             context=context)
                     tweet_ids.append(new_tweet)
-                    return tweet_ids
+                return tweet_ids
 
 
 
