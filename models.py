@@ -11,7 +11,7 @@ CONSUMER_SECRET = 'jqQyxcaWm2RjKzqJVC9VbsTTOyydY2luOP7icCvb9kGS9Pz1eH'
 KEY = '350263395-1AQhVGKaUpfy6XkGz7nRHr5B9PZcV01x4Xwxn88p'
 SECRET = 'wm5TFVKhSTRD1mN72fGgT2TNA5KhfqkfmOGLEreBo0O7D'
 
-class TwitterClient():
+class TwitterClient(object):
     def oauth_req(self, url, http_method = 'GET', post_body = '', http_headers = ''):
         consumer = oauth.Consumer(key = CONSUMER_KEY, secret = CONSUMER_SECRET)
         token = oauth.Token(key = KEY, secret = SECRET)
@@ -39,17 +39,21 @@ class Tweeter(models.Model):
     def get_tweet(self):
         tweets = self.env['ott.tweet']
         t = TwitterClient()
-        name = self.name
-        url = 'https://api.twitter.com/1.1/favorites/list.json?count=10&screen_name=%s' % name
-        response = t.get(url)
-        for tweet_dict in response:
-            tweet_id = tweet_dict['id']
-            tweet_content = tweet_dict['text']
-            tweets.create({
-                      'content': tweet_content,
-                      'tweet_id': tweet_id,
-                      'poster_id': name,
-                    })
+        tweeters = self.env['ott.tweeter'].search([])
+        _logger.debug("tweeters: %r", tweeters)
+        for tweeter in tweeters:
+            screen_name = tweeter.name
+            _logger.debug("screen_name: %r", screen_name)
+            url = 'https://api.twitter.com/1.1/favorites/list.json?count=10&screen_name=%s' % screen_name
+            response = t.get(url)
+            for tweet_dict in response:
+                tweet_id = tweet_dict['id']
+                tweet_content = tweet_dict['text']
+                tweets.create({
+                          'content': tweet_content,
+                          'tweet_id': tweet_id,
+                          'poster_id': screen_name,
+                        })
 
 
 
