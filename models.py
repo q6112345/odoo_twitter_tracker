@@ -29,8 +29,8 @@ class TwitterClient(object):
         return jdata
 
 
-class Tweeter(models.Model):
-    _name = "ott.tweeter"
+class TwitterAccount(models.Model):
+    _name = "ott.twitter_account"
     name = fields.Char(string="Screen Name", request=True)
     description = fields.Text()
     tweets_ids = fields.One2many('ott.tweet', 'poster_id', string="Tweets")
@@ -39,9 +39,9 @@ class Tweeter(models.Model):
     def get_tweet(self):
         tweets = self.env['ott.tweet']
         t = TwitterClient()
-        tweeters = self.env['ott.tweeter'].search([])
-        for tweeter in tweeters:
-            screen_name = tweeter.name
+        twitter_accounts = self.env['ott.twitter_account'].search([])
+        for twitter_account in twitter_accounts:
+            screen_name = twitter_account.name
             url = 'https://api.twitter.com/1.1/statuses/user_timeline.json?count=3&screen_name=%s' % screen_name
             response = t.get(url)
             for tweet_dict in response:
@@ -50,6 +50,7 @@ class Tweeter(models.Model):
                 tweets.create({
                           'content': tweet_content,
                           'tweet_id': tweet_id,
+                          "poster_id": twitter_account.id,
                         })
 
 
@@ -59,5 +60,5 @@ class Tweet(models.Model):
     _name = "ott.tweet"
     content = fields.Char(string="Content")
     tweet_id = fields.Float(sting="Tweet ID", digits=(0,0))
-    poster_id = fields.Many2one('ott.tweeter', ondelete="cascade", string="Poster")
-    #poster_id is an interger
+    poster_id = fields.Many2one('ott.twitter_account', ondelete="cascade", string="Poster")
+    #poster_id i an interger

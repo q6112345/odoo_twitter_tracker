@@ -14,11 +14,11 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="tweeter_tree_view">
-            <field name="name">tweeter.tree</field>
-            <field name="model">ott.tweeter</field>
+        <record model="ir.ui.view" id="twitter_account_tree_view">
+            <field name="name">twitter_account.tree</field>
+            <field name="model">ott.twitter_account</field>
             <field name="arch" type="xml">
-                <tree string="Tweeter Tree">
+                <tree string="twitter_account Tree">
                     <field name="name"/>
                     <field name="description"/>
                     <field name="tweets_ids"/>
@@ -37,10 +37,10 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <!--tweeter_list_action-->
-        <record model="ir.actions.act_window" id="tweeter_list_action">
-            <field name="name">Tweeters</field>
-            <field name="res_model">ott.tweeter</field>
+        <!--twitter_account_list_action-->
+        <record model="ir.actions.act_window" id="twitter_account_list_action">
+            <field name="name">Twitter Accounts</field>
+            <field name="res_model">ott.twitter_account</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
@@ -61,10 +61,9 @@
         <!--Retrived Tweets Menu-->
         <menuitem id="tweet_menu" name="Retrived Tweets" parent="ott_menu" action="tweet_list_action"/>
 
-        <!--Following Tweeters Menu-->
-        <menuitem id="tweeter_menu" name="Following Tweeters" parent="ott_menu" action="tweeter_list_action"/>
+        <!--Following twitter_account Menu-->
+        <menuitem id="twitter_account_menu" name="Following Twitter Accounts" parent="ott_menu" action="twitter_account_list_action"/>
 
-        <!--Trigger get_tweet method menu-->
-        <!--<menuitem id="tweeter_menu" name="Following Tweeters" parent="ott_menu" action="get_tweet_action"/>-->
+
     </data>
 </openerp>
