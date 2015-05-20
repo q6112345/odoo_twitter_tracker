@@ -40,11 +40,9 @@ class Tweeter(models.Model):
         tweets = self.env['ott.tweet']
         t = TwitterClient()
         tweeters = self.env['ott.tweeter'].search([])
-        _logger.debug("tweeters: %r", tweeters)
         for tweeter in tweeters:
             screen_name = tweeter.name
-            _logger.debug("screen_name: %r", screen_name)
-            url = 'https://api.twitter.com/1.1/favorites/list.json?count=10&screen_name=%s' % screen_name
+            url = 'https://api.twitter.com/1.1/statuses/user_timeline.json?count=3&screen_name=%s' % screen_name
             response = t.get(url)
             for tweet_dict in response:
                 tweet_id = tweet_dict['id']
@@ -52,7 +50,6 @@ class Tweeter(models.Model):
                 tweets.create({
                           'content': tweet_content,
                           'tweet_id': tweet_id,
-                          'poster_id': screen_name,
                         })
 
 
@@ -63,3 +60,4 @@ class Tweet(models.Model):
     content = fields.Char(string="Content")
     tweet_id = fields.Float(sting="Tweet ID", digits=(0,0))
     poster_id = fields.Many2one('ott.tweeter', ondelete="cascade", string="Poster")
+    #poster_id is an interger
