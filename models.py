@@ -42,16 +42,18 @@ class TwitterAccount(models.Model):
         twitter_accounts = self.env['ott.twitter_account'].search([])
         for twitter_account in twitter_accounts:
             screen_name = twitter_account.name
-            url = 'https://api.twitter.com/1.1/statuses/user_timeline.json?count=3&screen_name=%s' % screen_name
+            url = 'https://api.twitter.com/1.1/statuses/user_timeline.json?count=20&screen_name=%s' % screen_name
             response = t.get(url)
             for tweet_dict in response:
                 tweet_id = tweet_dict['id']
                 tweet_content = tweet_dict['text']
-                tweets.create({
-                          'content': tweet_content,
-                          'tweet_id': tweet_id,
-                          "poster_id": twitter_account.id,
-                        })
+                tweet_lid = self.env['ott.tweet'].search([('tweet_id', '=', tweet_id)])
+                if not tweet_lid:
+                    tweets.create({
+                              'content': tweet_content,
+                              'tweet_id': tweet_id,
+                              "poster_id": twitter_account.id,
+                            })
 
 
 
